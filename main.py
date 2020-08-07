@@ -64,7 +64,7 @@ def hangman(word):
     guessChar = input("Guess a character: ")
     if guessChar in answerKey:
       guessKey[answerKey.find(guessChar)] = guessChar
-      print
+      print(guessKey)
 
 #a = getNumber()
 #print("Number: ",a)
