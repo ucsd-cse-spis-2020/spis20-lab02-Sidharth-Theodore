@@ -60,10 +60,10 @@ def convertWageMtoW(mWage, location):
 
     ratio = 1-wageGap #subtracting the percentage from 1 to create a multipliable ratio
     wWage = mWage*ratio
-    return "Womens' wage: " + str(wWage) + "Man's Wage: "+ str(mWage)+ ""
+    return "Womens' wage: " + str(wWage) + " Man's Wage: "+ str(mWage)+ " Country: "+ location
     #womens' salary as a ration of the mens salary in the specified country
 
-new = convertWageMtoW(20,"AUS")
+new = convertWageMtoW(100,"CAN")
 print(new)
 
 #5: Word Guessing game
@@ -83,6 +83,7 @@ def hangman(word, lives):
       for i in range(len(word)):
         guessKey[answerKey.find(guessChar,findIndex)] = guessChar
         findIndex = answerKey.find(guessChar,findIndex) + 1
+        print(str)
     else:
       lives -= 1
     print(guessKey)
