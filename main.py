@@ -1,4 +1,6 @@
 #1: sum of two integers
+import pandas as pd
+
 def sumTwo(a,b):
 
    c = a + b
@@ -41,30 +43,54 @@ def sumDigits(num):
 
 
 #4: Wage Converter
-def convertWageMtoW(mWage,can):
-  
-  if(can == True):
-    wageGap = 17.6
-  else:
-    wageGap = 0.182
+data = pd.read_csv('wagegap.csv')#reading the wage gap data
+wageframe = pd.DataFrame(data[["LOCATION","VALUE"]])#create a dataframe based on the data we need 
 
-  ratio = 1-wageGap
 
-  return mWage*ratio
+
+def convertWageMtoW(mWage, location):
+    newframe = wageframe.loc[wageframe['LOCATION']==location,"VALUE"] #creating a specific dataframe based on the country input
+    values = [] #list that holds the values of the wagegap percentages
+    for row in newframe:
+        values.append(row)#adding each wagegap value from this country to the list
+
+    wageGap = sum(values)/len(values) #finding he average wagegap value
+
+    wageGap /= 100 #making that value a percentage
+
+    ratio = 1-wageGap #subtracting the percentage from 1 to create a multipliable ratio
+    wWage = mWage*ratio
+    return "Womens' wage: " + str(wWage) + "Man's Wage: "+ str(mWage)+ ""
+    #womens' salary as a ration of the mens salary in the specified country
+
+new = convertWageMtoW(20,"AUS")
+print(new)
 
 #5: Word Guessing game
-def hangman(word):
+def hangman(word, lives):
+  lives = lives
   answerKey = word
-  guessKey = ""
+  guessKey = []
   for i in range(len(word)):
-    guessKey += "_ "
+    guessKey += "_"
 #  print("answerKey = " + answerKey)
-  print("guessKey = " + guessKey)
-  while True:
+  print(str(guessKey))
+  while lives > 1:
+    print("Lives: " + str(lives))
     guessChar = input("Guess a character: ")
     if guessChar in answerKey:
-      guessKey[answerKey.find(guessChar)] = guessChar
-      print(guessKey)
+      findIndex = 0
+      for i in range(len(word)):
+        guessKey[answerKey.find(guessChar,findIndex)] = guessChar
+        findIndex = answerKey.find(guessChar,findIndex) + 1
+    else:
+      lives -= 1
+    print(guessKey)
+    if "_" in guessKey:
+      continue
+    else:
+      print("Congratulations, you win!")
+      break
 
 #a = getNumber()
 #print("Number: ",a)
@@ -73,4 +99,4 @@ def hangman(word):
 #print("sum: ",x)
 
 #print(convertWageMtoW(100))
-print(hangman("monkey"))
+hangman("molasses", 8)
